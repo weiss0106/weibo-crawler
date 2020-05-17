@@ -143,62 +143,63 @@ class Weibo(object):
         ]]
         self.csv_helper(result_headers, result_data, file_path)
 
-    def user_to_mongodb(self):
-        """将爬取的用户信息写入MongoDB数据库"""
-        user_list = [self.user]
-        self.info_to_mongodb('user', user_list)
-        print(u'%s信息写入MongoDB数据库完毕' % self.user['screen_name'])
+    # def user_to_mongodb(self):
+    #     """将爬取的用户信息写入MongoDB数据库"""
+    #     user_list = [self.user]
+    #     self.info_to_mongodb('user', user_list)
+    #     print(u'%s信息写入MongoDB数据库完毕' % self.user['screen_name'])
 
-    def user_to_mysql(self):
-        """将爬取的用户信息写入MySQL数据库"""
-        mysql_config = {
-            'host': 'localhost',
-            'port': 3306,
-            'user': 'root',
-            'password': '123456',
-            'charset': 'utf8mb4'
-        }
-        # 创建'weibo'数据库
-        create_database = """CREATE DATABASE IF NOT EXISTS weibo DEFAULT
-                         CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"""
-        self.mysql_create_database(mysql_config, create_database)
-        # 创建'user'表
-        create_table = """
-                CREATE TABLE IF NOT EXISTS user (
-                id varchar(20) NOT NULL,
-                screen_name varchar(30),
-                gender varchar(10),
-                statuses_count INT,
-                followers_count INT,
-                follow_count INT,
-                registration_time varchar(20),
-                sunshine varchar(20),
-                birthday varchar(40),
-                location varchar(200),
-                education varchar(200),
-                company varchar(200),
-                description varchar(140),
-                profile_url varchar(200),
-                profile_image_url varchar(200),
-                avatar_hd varchar(200),
-                urank INT,
-                mbrank INT,
-                verified BOOLEAN DEFAULT 0,
-                verified_type INT,
-                verified_reason varchar(140),
-                PRIMARY KEY (id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"""
-        self.mysql_create_table(mysql_config, create_table)
-        self.mysql_insert(mysql_config, 'user', [self.user])
-        print(u'%s信息写入MySQL数据库完毕' % self.user['screen_name'])
 
+
+    # def user_to_mysql(self):
+    #     """将爬取的用户信息写入MySQL数据库"""
+    #     mysql_config = {
+    #         'host': 'localhost',
+    #         'port': 3306,
+    #         'user': 'root',
+    #         'password': '123456',
+    #         'charset': 'utf8mb4'
+    #     }
+    #     # 创建'weibo'数据库
+    #     create_database = """CREATE DATABASE IF NOT EXISTS weibo DEFAULT
+    #                      CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"""
+    #     self.mysql_create_database(mysql_config, create_database)
+    #     # 创建'user'表
+    #     create_table = """
+    #             CREATE TABLE IF NOT EXISTS user (
+    #             id varchar(20) NOT NULL,
+    #             screen_name varchar(30),
+    #             gender varchar(10),
+    #             statuses_count INT,
+    #             followers_count INT,
+    #             follow_count INT,
+    #             registration_time varchar(20),
+    #             sunshine varchar(20),
+    #             birthday varchar(40),
+    #             location varchar(200),
+    #             education varchar(200),
+    #             company varchar(200),
+    #             description varchar(140),
+    #             profile_url varchar(200),
+    #             profile_image_url varchar(200),
+    #             avatar_hd varchar(200),
+    #             urank INT,
+    #             mbrank INT,
+    #             verified BOOLEAN DEFAULT 0,
+    #             verified_type INT,
+    #             verified_reason varchar(140),
+    #             PRIMARY KEY (id)
+    #             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"""
+    #     self.mysql_create_table(mysql_config, create_table)
+    #     self.mysql_insert(mysql_config, 'user', [self.user])
+    #     print(u'%s信息写入MySQL数据库完毕' % self.user['screen_name'])
     def user_to_database(self):
         """将用户信息写入文件/数据库"""
         self.user_to_csv()
-        if 'mysql' in self.write_mode:
-            self.user_to_mysql()
-        if 'mongo' in self.write_mode:
-            self.user_to_mongodb()
+        # if 'mysql' in self.write_mode:
+        #     self.user_to_mysql()
+        # if 'mongo' in self.write_mode:
+        #     self.user_to_mongodb()
 
     def get_user_info(self):
         """获取用户信息"""
@@ -805,34 +806,34 @@ class Weibo(object):
         print(u'%d条微博写入json文件完毕,保存路径:' % self.got_count)
         print(path)
 
-    def info_to_mongodb(self, collection, info_list):
-        """将爬取的信息写入MongoDB数据库"""
-        try:
-            import pymongo
-        except ImportError:
-            sys.exit(u'系统中可能没有安装pymongo库，请先运行 pip install pymongo ，再运行程序')
-        try:
-            from pymongo import MongoClient
+    # def info_to_mongodb(self, collection, info_list):
+    #     """将爬取的信息写入MongoDB数据库"""
+    #     try:
+    #         import pymongo
+    #     except ImportError:
+    #         sys.exit(u'系统中可能没有安装pymongo库，请先运行 pip install pymongo ，再运行程序')
+    #     try:
+    #         from pymongo import MongoClient
+    #
+    #         client = MongoClient()
+    #         db = client['weibo']
+    #         collection = db[collection]
+    #         if len(self.write_mode) > 1:
+    #             new_info_list = copy.deepcopy(info_list)
+    #         else:
+    #             new_info_list = info_list
+    #         for info in new_info_list:
+    #             if not collection.find_one({'id': info['id']}):
+    #                 collection.insert_one(info)
+    #             else:
+    #                 collection.update_one({'id': info['id']}, {'$set': info})
+    #     except pymongo.errors.ServerSelectionTimeoutError:
+    #         sys.exit(u'系统中可能没有安装或启动MongoDB数据库，请先根据系统环境安装或启动MongoDB，再运行程序')
 
-            client = MongoClient()
-            db = client['weibo']
-            collection = db[collection]
-            if len(self.write_mode) > 1:
-                new_info_list = copy.deepcopy(info_list)
-            else:
-                new_info_list = info_list
-            for info in new_info_list:
-                if not collection.find_one({'id': info['id']}):
-                    collection.insert_one(info)
-                else:
-                    collection.update_one({'id': info['id']}, {'$set': info})
-        except pymongo.errors.ServerSelectionTimeoutError:
-            sys.exit(u'系统中可能没有安装或启动MongoDB数据库，请先根据系统环境安装或启动MongoDB，再运行程序')
-
-    def weibo_to_mongodb(self, wrote_count):
-        """将爬取的微博信息写入MongoDB数据库"""
-        self.info_to_mongodb('weibo', self.weibo[wrote_count:])
-        print(u'%d条微博写入MongoDB数据库完毕' % self.got_count)
+    # def weibo_to_mongodb(self, wrote_count):
+    #     """将爬取的微博信息写入MongoDB数据库"""
+    #     self.info_to_mongodb('weibo', self.weibo[wrote_count:])
+    #     print(u'%d条微博写入MongoDB数据库完毕' % self.got_count)
 
     def mysql_create(self, connection, sql):
         """创建MySQL数据库或表"""
@@ -898,57 +899,57 @@ class Weibo(object):
             finally:
                 connection.close()
 
-    def weibo_to_mysql(self, wrote_count):
-        """将爬取的微博信息写入MySQL数据库"""
-        mysql_config = {
-            'host': 'localhost',
-            'port': 3306,
-            'user': 'root',
-            'password': '123456',
-            'charset': 'utf8mb4'
-        }
-        # 创建'weibo'表
-        create_table = """
-                CREATE TABLE IF NOT EXISTS weibo (
-                id varchar(20) NOT NULL,
-                bid varchar(12) NOT NULL,
-                user_id varchar(20),
-                screen_name varchar(30),
-                text varchar(2000),
-                article_url varchar(100),
-                topics varchar(200),
-                at_users varchar(1000),
-                pics varchar(3000),
-                video_url varchar(1000),
-                location varchar(100),
-                created_at DATETIME,
-                source varchar(30),
-                attitudes_count INT,
-                comments_count INT,
-                reposts_count INT,
-                retweet_id varchar(20),
-                PRIMARY KEY (id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"""
-        self.mysql_create_table(mysql_config, create_table)
-        weibo_list = []
-        retweet_list = []
-        if len(self.write_mode) > 1:
-            info_list = copy.deepcopy(self.weibo[wrote_count:])
-        else:
-            info_list = self.weibo[wrote_count:]
-        for w in info_list:
-            if 'retweet' in w:
-                w['retweet']['retweet_id'] = ''
-                retweet_list.append(w['retweet'])
-                w['retweet_id'] = w['retweet']['id']
-                del w['retweet']
-            else:
-                w['retweet_id'] = ''
-            weibo_list.append(w)
-        # 在'weibo'表中插入或更新微博数据
-        self.mysql_insert(mysql_config, 'weibo', retweet_list)
-        self.mysql_insert(mysql_config, 'weibo', weibo_list)
-        print(u'%d条微博写入MySQL数据库完毕' % self.got_count)
+    # def weibo_to_mysql(self, wrote_count):
+    #     """将爬取的微博信息写入MySQL数据库"""
+    #     mysql_config = {
+    #         'host': 'localhost',
+    #         'port': 3306,
+    #         'user': 'root',
+    #         'password': '123456',
+    #         'charset': 'utf8mb4'
+    #     }
+    #     # 创建'weibo'表
+    #     create_table = """
+    #             CREATE TABLE IF NOT EXISTS weibo (
+    #             id varchar(20) NOT NULL,
+    #             bid varchar(12) NOT NULL,
+    #             user_id varchar(20),
+    #             screen_name varchar(30),
+    #             text varchar(2000),
+    #             article_url varchar(100),
+    #             topics varchar(200),
+    #             at_users varchar(1000),
+    #             pics varchar(3000),
+    #             video_url varchar(1000),
+    #             location varchar(100),
+    #             created_at DATETIME,
+    #             source varchar(30),
+    #             attitudes_count INT,
+    #             comments_count INT,
+    #             reposts_count INT,
+    #             retweet_id varchar(20),
+    #             PRIMARY KEY (id)
+    #             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"""
+    #     self.mysql_create_table(mysql_config, create_table)
+    #     weibo_list = []
+    #     retweet_list = []
+    #     if len(self.write_mode) > 1:
+    #         info_list = copy.deepcopy(self.weibo[wrote_count:])
+    #     else:
+    #         info_list = self.weibo[wrote_count:]
+    #     for w in info_list:
+    #         if 'retweet' in w:
+    #             w['retweet']['retweet_id'] = ''
+    #             retweet_list.append(w['retweet'])
+    #             w['retweet_id'] = w['retweet']['id']
+    #             del w['retweet']
+    #         else:
+    #             w['retweet_id'] = ''
+    #         weibo_list.append(w)
+    #     # 在'weibo'表中插入或更新微博数据
+    #     self.mysql_insert(mysql_config, 'weibo', retweet_list)
+    #     self.mysql_insert(mysql_config, 'weibo', weibo_list)
+    #     print(u'%d条微博写入MySQL数据库完毕' % self.got_count)
 
     def update_user_config_file(self, user_config_file_path):
         """更新用户配置文件"""
@@ -982,10 +983,10 @@ class Weibo(object):
                 self.write_csv(wrote_count)
             if 'json' in self.write_mode:
                 self.write_json(wrote_count)
-            if 'mysql' in self.write_mode:
-                self.weibo_to_mysql(wrote_count)
-            if 'mongo' in self.write_mode:
-                self.weibo_to_mongodb(wrote_count)
+            # if 'mysql' in self.write_mode:
+            #     self.weibo_to_mysql(wrote_count)
+            # if 'mongo' in self.write_mode:
+            #     self.weibo_to_mongodb(wrote_count)
             if self.original_pic_download:
                 self.download_files('img', 'original', wrote_count)
             if self.original_video_download:
