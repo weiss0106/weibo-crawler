@@ -10,6 +10,10 @@ lxml = {path = "./lxml-4.5.0-cp38-cp38-win_amd64.whl"}
 requests = "==2.22.0"
 tqdm = "==4.32.2"
 pymysql = "*"
+selenium = "*"
+xlrd = "*"
+xlutils = "*"
+xlwt = "*"
 
 [requires]
 python_version = "3.8"
