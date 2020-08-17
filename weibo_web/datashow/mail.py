@@ -13,8 +13,8 @@ def sendmail(receiver, mail_title, mail_body):
     smtpserver = 'smtp.qq.com'
 
     # 发件人邮箱的用户名和授权码（不是登陆邮箱的密码）
-    username = '348370619@qq.com'
-    password = 'svywapqyyihbcace'  # （83xxxx202@qq.com邮箱的授权码）
+    username = ''
+    password = ''  # （83xxxx202@qq.com邮箱的授权码）
 
     mail_title = mail_title
     mail_body = mail_body
