@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    配置
+{% endblock title %}
+
+{% block content %}
+<body>
+<div class="card" style="margin-top: 20px">
+    <form action="{% url 'datashow:user_results' %}" method="post">
+{#        <p>微博用户id:(一个或多个){{form.Form_username}}</p>#}
+{#        <p>选择爬取范围:{{form.Form_filter}}</p>#}
+{#        <p>选择爬取开始日期:{{form.Form_since_date}}</p>#}
+{#        <p>是否下载原创微博图片:{{form.Form_o_p_download}}</p>#}
+{#        <p>是否下载转发微博图片:{{form.Form_r_p_download}}</p>#}
+{#        <p>是否下载原创微博视频:{{form.Form_o_v_download}}</p>#}
+{#        <p>是否下载转发微博视频:{{form.Form_r_v_download}}</p>#}
+    {% csrf_token %}
+    <ul>
+        <li>
+            <label>要爬取的用户id:</label>
+            <input type="text" name="uid_list" id="uid">
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li>
+            <label>选择爬取的微博范围:</label>
+            <input type="checkbox" name="filter" value="1">原创微博
+            <input type="checkbox" name="filter" value="0">全部微博
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li>
+            <label>输入爬取开始日期:</label>
+            <input type="text" name="d" id="d">
+            <span class="error_tip">格式为yyyy-mm-dd</span>
+        </li>
+        <li>
+            <label>是否下载原创微博图片:</label>
+            <input type="radio" name="opd" value="1">是
+            <input type="radio" name="opd" value="0">否
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li>
+            <label>是否下载转发微博图片:</label>
+            <input type="radio" name="rpd" value="1">是
+            <input type="radio" name="rpd" value="0">否
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li>
+            <label>是否下载原创微博视频:</label>
+            <input type="radio" name="ovd" value="1">是
+            <input type="radio" name="ovd" value="0">否
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li>
+            <label>是否下载转发微博视频:</label>
+            <input type="radio" name="rvd" value="1">是
+            <input type="radio" name="rvd" value="0">否
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li class="reg_sub">
+            <input type="submit" value="开始爬取" name="">
+            {{errmsg}}
+        </li>
+    </ul>
+    </form>
+</div>
+</body>
+{% endblock content %}

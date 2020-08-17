@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    配置
+{% endblock title %}
+
+{% block content %}
+<body>
+<div class="card" style="margin-top: 20px">
+    <form action="{% url 'datashow:comment_results' %}" method="post">
+    {% csrf_token %}
+    <ul>
+        <li>
+            <label>要爬取的微博id:</label>
+            <input type="text" name="id" id="id">
+{#            <span class="error_tip">提示信息</span>#}
+        </li>
+        <li class="reg_sub">
+            <input type="submit" value="开始爬取" name="">
+            {{errmsg}}
+        </li>
+    </ul>
+    </form>
+</div>
+</body>
+{% endblock content %}

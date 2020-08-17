@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    爬取结果
+{% endblock title %}
+
+{% block content %}
+<body>
+  <div class="card" style="margin-top: 20px">
+    <div class="card-header">用户<p>{{ uid }}</p>爬取结果</div>
+    <div class="card-body">
+      <table class="table table-striped table-hover" >
+        <thead class="thead-inverse">
+          <tr>
+            <th>用户ID</th>
+            <th>用户昵称</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for id,username in follow_list %}
+            <tr>
+              <td>{{ id }}</td>
+              <td>{{ username }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+{% endblock content %}

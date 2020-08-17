@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>输入敏感词</title>
+</head>
+<body>
+
+<h1>敏感词规则配置</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="word">
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>
